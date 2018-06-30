@@ -9,5 +9,6 @@ exit /b
     exit /b
 
 :"package"
-    zip -9 pipe2excel-%DATE:/=%.zip pipe2excel.exe readme.md
+    for /f %%I in ('pipe2excel -v') do set VERSION=%%I
+    zip -9 pipe2excel-%VERSION%.zip pipe2excel.exe readme.md
     exit /b
