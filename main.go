@@ -11,12 +11,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
 )
-
-var optionUtf8 = flag.Bool("u", false, "Read CSV as UTF8")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -92,11 +89,7 @@ func onError(err error, w io.Writer) bool {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		if *optionUtf8 || isatty.IsTerminal(os.Stdin.Fd()) {
-			return parseCsvReader(os.Stdin, f)
-		} else {
-			return parseCsvReader(mbcsReader(os.Stdin, onError), f)
-		}
+		return parseCsvReader(mbcsReader(os.Stdin, onError), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
 		return errors.Wrap(err, "on parseCsvFile")
@@ -106,13 +99,8 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	var reader io.ReadCloser
-	if *optionUtf8 {
-		reader = fd
-	} else {
-		reader = mbcsReader(fd, onError)
-		defer reader.Close()
-	}
+	reader := mbcsReader(fd, onError)
+	defer reader.Close()
 	return parseCsvReader(reader, f)
 }
 
