@@ -16,3 +16,17 @@ C:\> pipe2excel foo.csv bar.csv
 C:\> type foo.csv | pipe2excel
 ```
 
+<img src="foo-csv.png" />
+
+<img src="foo-xls.png" />
+
+history
+-------
+- The latest (binary is not released yet)
+    - Only matching `/^[1-9]\d*(\.\d*[1-9])?$/`, as a number
+- 0.1
+    - Set cell as a string
+    - Detect encoding utf8 or codepage automatically and remove -u option
+    - Add -v option to show version
+- 20180701
+    - prototype
