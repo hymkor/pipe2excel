@@ -47,15 +47,6 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 	}
 }
 
-// SendCsvToStdout is the sample class implmentation for SendCsv interface
-type SendCsvToStdout struct{}
-
-// SendCsvToStdout output csv-line to STDOUT
-func (*SendCsvToStdout) Send(csv []string) error {
-	fmt.Printf("<%s>\n", strings.Join(csv, "> <"))
-	return nil
-}
-
 func mbcsReader(fd io.Reader, onError func(error, io.Writer) bool) io.ReadCloser {
 	reader, writer := io.Pipe()
 	go func() {
@@ -113,7 +104,6 @@ func main1(args []string) error {
 		return err
 	}
 	defer send2excel.Close()
-	// send2excel := &SendCsvToStdout{}
 	for _, arg1 := range args {
 		if err := parseCsvFile(arg1, send2excel); err != nil {
 			return err
