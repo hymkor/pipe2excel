@@ -60,12 +60,8 @@ func (this *SendCsvToExcel) Send(csv []string) error {
 			return errors.Wrap(err, "on SendCsvToExcel.Send")
 		}
 		cell := _cell.ToIDispatch()
+		oleutil.PutProperty(cell, "NumberFormatLocal", "@")
 		oleutil.PutProperty(cell, "Value", val)
-
-		text, err := oleutil.GetProperty(cell, "Text")
-		if err == nil && text.ToString() != val {
-			oleutil.PutProperty(cell, "Value", "'"+val)
-		}
 		cell.Release()
 	}
 	this.row++
