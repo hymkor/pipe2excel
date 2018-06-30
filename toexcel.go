@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
+	"github.com/pkg/errors"
 )
 
 type SendCsvToExcel struct {
@@ -11,15 +12,15 @@ type SendCsvToExcel struct {
 }
 
 func NewSendCsvToExcel() (*SendCsvToExcel, error) {
-	ole.CoInitialize(0)
+	ole.CoInitializeEx(0, 0)
 
 	_excel, err := oleutil.CreateObject("Excel.Application")
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "on NewSendCsvToExcel")
 	}
 	excel, err := _excel.QueryInterface(ole.IID_IDispatch)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "on NewSendCsvToExcel")
 	}
 	defer excel.Release()
 
@@ -27,21 +28,21 @@ func NewSendCsvToExcel() (*SendCsvToExcel, error) {
 
 	_workbooks, err := oleutil.GetProperty(excel, "Workbooks")
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "on NewSendCsvToExcel")
 	}
 	workbooks := _workbooks.ToIDispatch()
 	defer workbooks.Release()
 
 	_workbook, err := oleutil.CallMethod(workbooks, "Add", nil)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "on NewSendCsvToExcel")
 	}
 	workbook := _workbook.ToIDispatch()
 	defer workbook.Release()
 
 	_worksheet, err := oleutil.GetProperty(workbook, "Worksheets", 1)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "on NewSendCsvToExcel")
 	}
 
 	return &SendCsvToExcel{
@@ -62,7 +63,7 @@ func (this *SendCsvToExcel) Send(csv []string) error {
 	for key, val := range csv {
 		_cell, err := oleutil.GetProperty(this.worksheet, "Cells", this.row, key+1)
 		if err != nil {
-			return err
+			return errors.Wrap(err, "on SendCsvToExcel.Send")
 		}
 		cell := _cell.ToIDispatch()
 		oleutil.PutProperty(cell, "Value", val)
