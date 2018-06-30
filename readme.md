@@ -5,6 +5,7 @@ Pipe To Excel
 or files of arguments to Excel as CSV to Microsoft Excel.
 
 - The each value of the csv is inserted as a string.
+    - Only matching `/^[1-9]\d*(\.\d*[1-9])?$/`, as a number
 - The encoding of the CSV is detected automatically whether it is written in UTF8 or the encoding of the current codepage.
 
 ```
