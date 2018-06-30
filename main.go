@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
@@ -63,15 +64,21 @@ func mbcsReader(fd io.Reader, onError func(error, io.Writer) bool) io.ReadCloser
 	go func() {
 		sc := bufio.NewScanner(fd)
 		defer writer.Close()
+		notUtf8 := false
 		for sc.Scan() {
 			line := sc.Bytes()
-			utf8, err := mbcs.AtoU(line)
-			if err != nil {
-				if !onError(err, writer) {
-					return
-				}
+			if !notUtf8 && utf8.Valid(line) {
+				fmt.Fprintln(writer, string(line))
 			} else {
-				fmt.Fprintln(writer, utf8)
+				text, err := mbcs.AtoU(line)
+				if err != nil {
+					if !onError(err, writer) {
+						return
+					}
+				} else {
+					notUtf8 = true
+					fmt.Fprintln(writer, text)
+				}
 			}
 		}
 	}()
