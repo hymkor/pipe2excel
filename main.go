@@ -87,7 +87,7 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return parseCsvReader(mbcsReader(os.Stdin, onError), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
-		return errors.Wrap(err, "on parseCsvFile")
+		return errors.Wrap(err, "parseCsvFile")
 	}
 	fd, err := os.Open(fname)
 	if err != nil {

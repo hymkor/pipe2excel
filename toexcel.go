@@ -57,7 +57,7 @@ func (this *SendCsvToExcel) Send(csv []string) error {
 	for key, val := range csv {
 		_cell, err := oleutil.GetProperty(this.sheet.IDispatch, "Cells", this.row, key+1)
 		if err != nil {
-			return errors.Wrap(err, "on SendCsvToExcel.Send")
+			return errors.Wrap(err, "(*SendCsvToExcel)Send")
 		}
 		cell := _cell.ToIDispatch()
 		oleutil.PutProperty(cell, "NumberFormatLocal", "@")
