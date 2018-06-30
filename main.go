@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -13,6 +14,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
 )
+
+var optionUtf8 = flag.Bool("u", false, "Read CSV as UTF8")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -82,7 +85,7 @@ func onError(err error, w io.Writer) bool {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		if isatty.IsTerminal(os.Stdin.Fd()) {
+		if *optionUtf8 || isatty.IsTerminal(os.Stdin.Fd()) {
 			return parseCsvReader(os.Stdin, f)
 		} else {
 			return parseCsvReader(mbcsReader(os.Stdin, onError), f)
@@ -96,8 +99,13 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	reader := mbcsReader(fd, onError)
-	defer reader.Close()
+	var reader io.ReadCloser
+	if *optionUtf8 {
+		reader = fd
+	} else {
+		reader = mbcsReader(fd, onError)
+		defer reader.Close()
+	}
 	return parseCsvReader(reader, f)
 }
 
@@ -120,7 +128,8 @@ func main1(args []string) error {
 }
 
 func main() {
-	if err := main1(os.Args[1:]); err != nil {
+	flag.Parse()
+	if err := main1(flag.Args()); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)
 	}
