@@ -8,12 +8,16 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
+	"runtime"
 	"unicode/utf8"
 
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
 )
+
+const version = "0.1"
+
+var versionOption = flag.Bool("v", false, "Show version")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -114,6 +118,10 @@ func main1(args []string) error {
 
 func main() {
 	flag.Parse()
+	if *versionOption {
+		fmt.Printf("%s-%s\n", version, runtime.GOARCH)
+		os.Exit(0)
+	}
 	if err := main1(flag.Args()); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)
