@@ -6,15 +6,18 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mattn/go-isatty"
+	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
 )
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
 	Send(csv1 []string) error
+	NewSheet(name string) error
 }
 
 func isErrFieldCount(err error) bool {
@@ -84,6 +87,9 @@ func parseCsvFile(fname string, f SendCsv) error {
 		} else {
 			return parseCsvReader(mbcsReader(os.Stdin, onError), f)
 		}
+	}
+	if err := f.NewSheet(filepath.Base(fname)); err != nil {
+		return errors.Wrap(err, "on parseCsvFile")
 	}
 	fd, err := os.Open(fname)
 	if err != nil {
