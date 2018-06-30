@@ -66,6 +66,11 @@ func (this *SendCsvToExcel) Send(csv []string) error {
 		}
 		cell := _cell.ToIDispatch()
 		oleutil.PutProperty(cell, "Value", val)
+
+		text, err := oleutil.GetProperty(cell, "Text")
+		if err == nil && text.ToString() != val {
+			oleutil.PutProperty(cell, "Value", "'"+val)
+		}
 		cell.Release()
 	}
 	this.row++
