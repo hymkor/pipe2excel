@@ -16,8 +16,8 @@ type SendCsvToExcel struct {
 	SaveAs string
 }
 
-func NewSendCsvToExcel() (*SendCsvToExcel, error) {
-	excel, err := NewExcel()
+func NewSendCsvToExcel(visible bool) (*SendCsvToExcel, error) {
+	excel, err := NewExcel(visible)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewSendCsvToExcel")
 	}

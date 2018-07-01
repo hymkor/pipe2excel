@@ -20,6 +20,7 @@ const version = "0.2"
 var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
 var saveAsOption = flag.String("o", "", "SaveAs")
+var hideAsOption = flag.Bool("s", false, "Silent mode (hide Excel)")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -105,7 +106,15 @@ func main1(args []string) error {
 	if len(args) <= 0 {
 		args = []string{"-"}
 	}
-	send2excel, err := NewSendCsvToExcel()
+
+	if *hideAsOption {
+		*quitOption = true
+		if *saveAsOption == "" {
+			return errors.New("-s option requires `-o FILENAME`")
+		}
+	}
+
+	send2excel, err := NewSendCsvToExcel(!*hideAsOption)
 	if err != nil {
 		return err
 	}

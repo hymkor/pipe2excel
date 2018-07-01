@@ -10,7 +10,7 @@ type Excel struct {
 	*ole.IDispatch
 }
 
-func NewExcel() (*Excel, error) {
+func NewExcel(visible bool) (*Excel, error) {
 	ole.CoInitializeEx(0, 0)
 
 	_excel, err := oleutil.CreateObject("Excel.Application")
@@ -21,7 +21,9 @@ func NewExcel() (*Excel, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "NewBook")
 	}
-	excel.PutProperty("Visible", true)
+	if visible {
+		excel.PutProperty("Visible", true)
+	}
 	return &Excel{excel}, nil
 }
 
