@@ -13,6 +13,7 @@ type SendCsvToExcel struct {
 	book   *Book
 	row    int
 	DoQuit bool
+	SaveAs string
 }
 
 func NewSendCsvToExcel() (*SendCsvToExcel, error) {
@@ -43,6 +44,9 @@ func (this *SendCsvToExcel) Close() {
 		this.sheet = nil
 	}
 	if this.book != nil {
+		if this.SaveAs != "" {
+			this.book.CallMethod("SaveAs", this.SaveAs)
+		}
 		this.book.Release()
 		this.book = nil
 	}

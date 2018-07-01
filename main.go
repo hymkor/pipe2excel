@@ -19,6 +19,7 @@ const version = "0.2"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
+var saveAsOption = flag.String("o", "", "SaveAs")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -110,6 +111,11 @@ func main1(args []string) error {
 	}
 	if *quitOption {
 		send2excel.DoQuit = true
+	}
+	if *saveAsOption != "" {
+		if fullpath, err := filepath.Abs(*saveAsOption); err == nil {
+			send2excel.SaveAs = fullpath
+		}
 	}
 	defer send2excel.Close()
 	for _, arg1 := range args {
