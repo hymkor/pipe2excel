@@ -8,13 +8,19 @@ import (
 )
 
 type SendCsvToExcel struct {
-	sheet *Sheet
-	book  *Book
-	row   int
+	excel  *Excel
+	sheet  *Sheet
+	book   *Book
+	row    int
+	DoQuit bool
 }
 
 func NewSendCsvToExcel() (*SendCsvToExcel, error) {
-	book, err := NewBook()
+	excel, err := NewExcel()
+	if err != nil {
+		return nil, errors.Wrap(err, "NewSendCsvToExcel")
+	}
+	book, err := excel.NewBook()
 	if err != nil {
 		return nil, err
 	}
@@ -24,6 +30,7 @@ func NewSendCsvToExcel() (*SendCsvToExcel, error) {
 		return nil, err
 	}
 	return &SendCsvToExcel{
+		excel: excel,
 		sheet: sheet,
 		book:  book,
 		row:   1,
@@ -38,6 +45,13 @@ func (this *SendCsvToExcel) Close() {
 	if this.book != nil {
 		this.book.Release()
 		this.book = nil
+	}
+	if this.excel != nil {
+		if this.DoQuit {
+			this.excel.CallMethod("Quit")
+		}
+		this.excel.Release()
+		this.excel = nil
 	}
 	ole.CoUninitialize()
 }

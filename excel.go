@@ -6,11 +6,11 @@ import (
 	"github.com/pkg/errors"
 )
 
-type Book struct {
+type Excel struct {
 	*ole.IDispatch
 }
 
-func NewBook() (*Book, error) {
+func NewExcel() (*Excel, error) {
 	ole.CoInitializeEx(0, 0)
 
 	_excel, err := oleutil.CreateObject("Excel.Application")
@@ -21,10 +21,15 @@ func NewBook() (*Book, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "NewBook")
 	}
-	defer excel.Release()
-
 	excel.PutProperty("Visible", true)
+	return &Excel{excel}, nil
+}
 
+type Book struct {
+	*ole.IDispatch
+}
+
+func (excel *Excel) NewBook() (*Book, error) {
 	_workbooks, err := excel.GetProperty("Workbooks")
 	if err != nil {
 		return nil, errors.Wrap(err, "NewBook")
