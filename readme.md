@@ -22,7 +22,7 @@ C:\> type foo.csv | pipe2excel
 
 history
 -------
-- The latest (binary is not released yet)
+- 0.2
     - Only matching `/^[1-9]\d*(\.\d*[1-9])?$/`, as a number
 - 0.1
     - Set cell as a string
