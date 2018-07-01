@@ -23,14 +23,14 @@ func NewBook() (*Book, error) {
 	}
 	defer excel.Release()
 
-	oleutil.PutProperty(excel, "Visible", true)
+	excel.PutProperty("Visible", true)
 
-	_workbooks, err := oleutil.GetProperty(excel, "Workbooks")
+	_workbooks, err := excel.GetProperty("Workbooks")
 	if err != nil {
 		return nil, errors.Wrap(err, "NewBook")
 	}
 	workbooks := _workbooks.ToIDispatch()
-	_workbook, err := oleutil.CallMethod(workbooks, "Add", nil)
+	_workbook, err := workbooks.CallMethod("Add", nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewBook")
 	}
@@ -46,7 +46,7 @@ type Sheets struct {
 }
 
 func (b *Book) Item(name interface{}) (*Sheet, error) {
-	_worksheet, err := oleutil.GetProperty(b.IDispatch, "Worksheets", name)
+	_worksheet, err := b.GetProperty("Worksheets", name)
 	if err != nil {
 		return nil, errors.Wrap(err, "(*Book).Item")
 	}
@@ -54,7 +54,7 @@ func (b *Book) Item(name interface{}) (*Sheet, error) {
 }
 
 func (b *Book) Sheets() (*Sheets, error) {
-	_sheets, err := oleutil.GetProperty(b.IDispatch, "Sheets")
+	_sheets, err := b.GetProperty("Sheets")
 	if err != nil {
 		return nil, errors.Wrap(err, "(*Book).Sheets")
 	}
@@ -62,7 +62,7 @@ func (b *Book) Sheets() (*Sheets, error) {
 }
 
 func (st *Sheets) Count() (int, error) {
-	value, err := oleutil.GetProperty(st.IDispatch, "Count")
+	value, err := st.GetProperty("Count")
 	if err != nil {
 		return -1, errors.Wrap(err, "(*Sheets).Count")
 	}
@@ -75,7 +75,7 @@ func (b *Book) Add() (*Sheet, error) {
 		return nil, errors.Wrap(err, "(*Book).Add")
 	}
 	defer sheets.Release()
-	_worksheet, err := oleutil.CallMethod(sheets.IDispatch, "Add", nil)
+	_worksheet, err := sheets.CallMethod("Add", nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "(*Book).Add")
 	}
@@ -83,7 +83,7 @@ func (b *Book) Add() (*Sheet, error) {
 }
 
 func (s *Sheet) SetName(name string) error {
-	if _, err := oleutil.PutProperty(s.IDispatch, "Name", name); err != nil {
+	if _, err := s.PutProperty("Name", name); err != nil {
 		return errors.Wrap(err, "(*Sheet).SetName")
 	}
 	return nil
