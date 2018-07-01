@@ -41,6 +41,10 @@ type Sheet struct {
 	*ole.IDispatch
 }
 
+type Sheets struct {
+	*ole.IDispatch
+}
+
 func (b *Book) Item(name interface{}) (*Sheet, error) {
 	_worksheet, err := oleutil.GetProperty(b.IDispatch, "Worksheets", name)
 	if err != nil {
@@ -49,14 +53,29 @@ func (b *Book) Item(name interface{}) (*Sheet, error) {
 	return &Sheet{_worksheet.ToIDispatch()}, nil
 }
 
-func (b *Book) Add() (*Sheet, error) {
+func (b *Book) Sheets() (*Sheets, error) {
 	_sheets, err := oleutil.GetProperty(b.IDispatch, "Sheets")
+	if err != nil {
+		return nil, errors.Wrap(err, "(*Book).Sheets")
+	}
+	return &Sheets{_sheets.ToIDispatch()}, nil
+}
+
+func (st *Sheets) Count() (int, error) {
+	value, err := oleutil.GetProperty(st.IDispatch, "Count")
+	if err != nil {
+		return -1, errors.Wrap(err, "(*Sheets).Count")
+	}
+	return int(value.Val), nil
+}
+
+func (b *Book) Add() (*Sheet, error) {
+	sheets, err := b.Sheets()
 	if err != nil {
 		return nil, errors.Wrap(err, "(*Book).Add")
 	}
-	sheets := _sheets.ToIDispatch()
 	defer sheets.Release()
-	_worksheet, err := oleutil.CallMethod(sheets, "Add", nil)
+	_worksheet, err := oleutil.CallMethod(sheets.IDispatch, "Add", nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "(*Book).Add")
 	}
