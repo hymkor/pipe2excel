@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/csv"
 	"flag"
 	"fmt"
@@ -9,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"unicode/utf8"
 
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
@@ -54,32 +52,6 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 	}
 }
 
-func mbcsReader(fd io.Reader, onError func(error, io.Writer) bool) io.ReadCloser {
-	reader, writer := io.Pipe()
-	go func() {
-		sc := bufio.NewScanner(fd)
-		defer writer.Close()
-		notUtf8 := false
-		for sc.Scan() {
-			line := sc.Bytes()
-			if !notUtf8 && utf8.Valid(line) {
-				fmt.Fprintln(writer, string(line))
-			} else {
-				text, err := mbcs.AtoU(line)
-				if err != nil {
-					if !onError(err, writer) {
-						return
-					}
-				} else {
-					notUtf8 = true
-					fmt.Fprintln(writer, text)
-				}
-			}
-		}
-	}()
-	return reader
-}
-
 func onError(err error, w io.Writer) bool {
 	fmt.Fprintf(w, "<%s>\n", err.Error())
 	return true
@@ -87,7 +59,7 @@ func onError(err error, w io.Writer) bool {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		return parseCsvReader(mbcsReader(os.Stdin, onError), f)
+		return parseCsvReader(mbcs.Reader(os.Stdin, onError), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
 		return errors.Wrap(err, "parseCsvFile")
@@ -97,7 +69,7 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	reader := mbcsReader(fd, onError)
+	reader := mbcs.Reader(fd, onError)
 	defer reader.Close()
 	return parseCsvReader(reader, f)
 }
