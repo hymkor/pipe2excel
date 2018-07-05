@@ -44,6 +44,19 @@ func (excel *Application) NewBook() (*Book, error) {
 	return &Book{_workbook.ToIDispatch()}, nil
 }
 
+func (excel *Application) Open(fname string) (*Book, error) {
+	_workbooks, err := excel.GetProperty("Workbooks")
+	if err != nil {
+		return nil, errors.Wrap(err, "(*excel.Application)Open: GetProperty(\"WorkBooks\")")
+	}
+	workbooks := _workbooks.ToIDispatch()
+	_workbook, err := workbooks.CallMethod("Open", fname)
+	if err != nil {
+		return nil, errors.Wrap(err, "(*excel.Application)Open: CallMethod(\"Open\")")
+	}
+	return &Book{_workbook.ToIDispatch()}, nil
+}
+
 type Sheet struct {
 	*ole.IDispatch
 }
