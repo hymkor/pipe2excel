@@ -5,23 +5,25 @@ import (
 	"github.com/go-ole/go-ole/oleutil"
 	"github.com/pkg/errors"
 	"regexp"
+
+	"github.com/zetamatta/pipe2excel/excel"
 )
 
 type SendCsvToExcel struct {
-	excel  *Excel
-	sheet  *Sheet
-	book   *Book
+	excel  *excel.Application
+	sheet  *excel.Sheet
+	book   *excel.Book
 	row    int
 	DoQuit bool
 	SaveAs string
 }
 
 func NewSendCsvToExcel(visible bool) (*SendCsvToExcel, error) {
-	excel, err := NewExcel(visible)
+	excel1, err := excel.New(visible)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewSendCsvToExcel")
 	}
-	book, err := excel.NewBook()
+	book, err := excel1.NewBook()
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +33,7 @@ func NewSendCsvToExcel(visible bool) (*SendCsvToExcel, error) {
 		return nil, err
 	}
 	return &SendCsvToExcel{
-		excel: excel,
+		excel: excel1,
 		sheet: sheet,
 		book:  book,
 		row:   1,
