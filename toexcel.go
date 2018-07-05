@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/go-ole/go-ole"
-	"github.com/go-ole/go-ole/oleutil"
 	"github.com/pkg/errors"
 	"regexp"
 
@@ -78,17 +77,17 @@ var rxNumber = regexp.MustCompile(`^[1-9]\d*(\.\d*[1-9])?$`)
 
 func (this *SendCsvToExcel) Send(csv []string) error {
 	for key, val := range csv {
-		_cell, err := oleutil.GetProperty(this.sheet.IDispatch, "Cells", this.row, key+1)
+		_cell, err := this.sheet.GetProperty("Cells", this.row, key+1)
 		if err != nil {
 			return errors.Wrap(err, "(*SendCsvToExcel)Send")
 		}
 		cell := _cell.ToIDispatch()
 		if rxNumber.MatchString(val) {
-			oleutil.PutProperty(cell, "NumberFormatLocal", "0_")
+			cell.PutProperty("NumberFormatLocal", "0_")
 		} else {
-			oleutil.PutProperty(cell, "NumberFormatLocal", "@")
+			cell.PutProperty("NumberFormatLocal", "@")
 		}
-		oleutil.PutProperty(cell, "Value", val)
+		cell.PutProperty("Value", val)
 		cell.Release()
 	}
 	this.row++
