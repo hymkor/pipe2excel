@@ -59,7 +59,7 @@ func onError(err error, w io.Writer) bool {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		return parseCsvReader(mbcs.Reader(os.Stdin, onError), f)
+		return parseCsvReader(mbcs.NewReader(os.Stdin), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
 		return errors.Wrap(err, "parseCsvFile")
@@ -69,8 +69,7 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	reader := mbcs.Reader(fd, onError)
-	defer reader.Close()
+	reader := mbcs.NewReader(fd)
 	return parseCsvReader(reader, f)
 }
 
