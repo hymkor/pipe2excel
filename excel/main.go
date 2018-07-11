@@ -27,6 +27,11 @@ func New(visible bool) (*Application, error) {
 	return &Application{excel}, nil
 }
 
+func (this *Application) Close() {
+	this.Release()
+	ole.CoUninitialize()
+}
+
 type Book struct {
 	*ole.IDispatch
 }

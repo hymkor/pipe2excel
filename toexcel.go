@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/go-ole/go-ole"
 	"github.com/pkg/errors"
 	"regexp"
 
@@ -55,10 +54,9 @@ func (this *SendCsvToExcel) Close() {
 		if this.DoQuit {
 			this.excel.CallMethod("Quit")
 		}
-		this.excel.Release()
+		this.excel.Close()
 		this.excel = nil
 	}
-	ole.CoUninitialize()
 }
 
 func (this *SendCsvToExcel) NewSheet(name string) error {
