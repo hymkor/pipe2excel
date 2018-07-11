@@ -41,6 +41,7 @@ func (excel *Application) NewBook() (*Book, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "(*excel.Application)NewBook: CallMethod(\"Add\")")
 	}
+	workbooks.Release()
 	return &Book{_workbook.ToIDispatch()}, nil
 }
 
@@ -54,6 +55,7 @@ func (excel *Application) Open(fname string) (*Book, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "(*excel.Application)Open: CallMethod(\"Open\")")
 	}
+	workbooks.Release()
 	return &Book{_workbook.ToIDispatch()}, nil
 }
 
