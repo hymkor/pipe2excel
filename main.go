@@ -14,7 +14,7 @@ import (
 	"github.com/mattn/go-isatty"
 )
 
-const version = "0.2"
+const version = "0.3"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
