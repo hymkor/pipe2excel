@@ -11,9 +11,10 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
+	"github.com/mattn/go-isatty"
 )
 
-const version = "0.2"
+const version = "0.3"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
@@ -75,6 +76,10 @@ func parseCsvFile(fname string, f SendCsv) error {
 
 func main1(args []string) error {
 	if len(args) <= 0 {
+		if isatty.IsTerminal(os.Stdin.Fd()) {
+			flag.PrintDefaults()
+			return nil
+		}
 		args = []string{"-"}
 	}
 

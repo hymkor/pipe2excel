@@ -22,6 +22,9 @@ C:\> type foo.csv | pipe2excel
 
 history
 -------
+- 0.3
+    - Fix leak release COM
+    - Print help if no arguments and stdin is not redirected
 - 0.2
     - Only matching `/^[1-9]\d*(\.\d*[1-9])?$/`, as a number
 - 0.1
