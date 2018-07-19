@@ -71,7 +71,7 @@ func (this *SendCsvToExcel) NewSheet(name string) error {
 	return nil
 }
 
-var rxNumber = regexp.MustCompile(`^[1-9]\d*(\.\d*[1-9])?$`)
+var rxNumber = regexp.MustCompile(`^\-?[1-9]\d*(\.\d*[1-9])?$`)
 
 func (this *SendCsvToExcel) Send(csv []string) error {
 	for key, val := range csv {

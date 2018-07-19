@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
 	"github.com/zetamatta/go-mbcs"
-	"github.com/mattn/go-isatty"
 )
 
 const version = "0.3"
