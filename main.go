@@ -27,24 +27,15 @@ type SendCsv interface {
 	NewSheet(name string) error
 }
 
-func isErrFieldCount(err error) bool {
-	if err == csv.ErrFieldCount {
-		return true
-	}
-	if e, ok := err.(*csv.ParseError); ok && e.Err == csv.ErrFieldCount {
-		return true
-	}
-	return false
-}
-
 func parseCsvReader(r io.Reader, f SendCsv) error {
 	reader := csv.NewReader(r)
+	reader.FieldsPerRecord = -1 // do not error how many field exists per line
 	for {
 		csv1, err := reader.Read()
-		if err != nil && !isErrFieldCount(err) {
-			if err == io.EOF {
-				return nil
-			}
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
 			return err
 		}
 		if err := f.Send(csv1); err != nil {
