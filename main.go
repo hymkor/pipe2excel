@@ -20,6 +20,7 @@ var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
 var saveAsOption = flag.String("o", "", "SaveAs")
 var hideAsOption = flag.Bool("s", false, "Silent mode (hide Excel)")
+var fieldSeperator = flag.String("f", ",", "Field Sperator")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -30,6 +31,12 @@ type SendCsv interface {
 func parseCsvReader(r io.Reader, f SendCsv) error {
 	reader := csv.NewReader(r)
 	reader.FieldsPerRecord = -1 // do not error how many field exists per line
+	if len(*fieldSeperator) != 1 {
+		return fmt.Errorf("Invalid lendth of field seperator(%s)", *fieldSeperator)
+	}
+	for _, v := range *fieldSeperator {
+		reader.Comma = v
+	}
 	for {
 		csv1, err := reader.Read()
 		if err == io.EOF {
