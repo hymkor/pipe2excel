@@ -22,7 +22,7 @@ C:\> type foo.csv | pipe2excel
 
 history
 -------
-- (not released yet)
+- 0.4
     - Add -f option to set field seperator
     - Do not treat as string when the value is a negative integer.
 - 0.3

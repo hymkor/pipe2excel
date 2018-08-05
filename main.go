@@ -14,7 +14,7 @@ import (
 	"github.com/zetamatta/go-mbcs"
 )
 
-const version = "0.3"
+const version = "0.4"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var quitOption = flag.Bool("q", false, "Quit immediately")
