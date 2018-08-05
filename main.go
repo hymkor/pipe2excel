@@ -51,11 +51,6 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 	}
 }
 
-func onError(err error, w io.Writer) bool {
-	fmt.Fprintf(w, "<%s>\n", err.Error())
-	return true
-}
-
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
 		return parseCsvReader(mbcs.NewReader(os.Stdin), f)
