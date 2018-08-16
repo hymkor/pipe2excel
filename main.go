@@ -79,6 +79,24 @@ func main1(args []string) error {
 		args = []string{"-"}
 	}
 
+	var send2excel SendCsv
+	if *saveAsOption != "" {
+		send2excel = NewSendCsvToXlsx()
+		if fullpath, err := filepath.Abs(*saveAsOption); err == nil {
+			send2excel.SetSaveAs(fullpath)
+		}
+	} else {
+		var err error
+		send2excel, err = NewSendCsvToExcel(!*hideAsOption)
+		if err != nil {
+			return err
+		}
+		if *quitOption {
+			send2excel.SetDoQuit(true)
+		}
+	}
+	defer send2excel.Close()
+
 	if *hideAsOption {
 		*quitOption = true
 		if *saveAsOption == "" {
@@ -86,19 +104,6 @@ func main1(args []string) error {
 		}
 	}
 
-	send2excel, err := NewSendCsvToExcel(!*hideAsOption)
-	if err != nil {
-		return err
-	}
-	if *quitOption {
-		send2excel.SetDoQuit(true)
-	}
-	if *saveAsOption != "" {
-		if fullpath, err := filepath.Abs(*saveAsOption); err == nil {
-			send2excel.SetSaveAs(fullpath)
-		}
-	}
-	defer send2excel.Close()
 	for _, arg1 := range args {
 		if err := parseCsvFile(arg1, send2excel); err != nil {
 			return err
