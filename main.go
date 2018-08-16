@@ -17,9 +17,7 @@ import (
 const version = "0.4"
 
 var versionOption = flag.Bool("v", false, "Show version")
-var quitOption = flag.Bool("q", false, "Quit immediately")
-var saveAsOption = flag.String("o", "", "SaveAs")
-var hideAsOption = flag.Bool("s", false, "Silent mode (hide Excel)")
+var saveAsOption = flag.String("o", "", "Save to file and quit immediately without EXCEL.EXE")
 var fieldSeperator = flag.String("f", ",", "Field Sperator")
 
 // SendCsv is the interface to send csv somewhere
@@ -87,22 +85,12 @@ func main1(args []string) error {
 		}
 	} else {
 		var err error
-		send2excel, err = NewSendCsvToExcel(!*hideAsOption)
+		send2excel, err = NewSendCsvToExcel(true)
 		if err != nil {
 			return err
 		}
-		if *quitOption {
-			send2excel.SetDoQuit(true)
-		}
 	}
 	defer send2excel.Close()
-
-	if *hideAsOption {
-		*quitOption = true
-		if *saveAsOption == "" {
-			return errors.New("-s option requires `-o FILENAME`")
-		}
-	}
 
 	for _, arg1 := range args {
 		if err := parseCsvFile(arg1, send2excel); err != nil {
