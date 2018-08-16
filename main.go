@@ -26,6 +26,9 @@ var fieldSeperator = flag.String("f", ",", "Field Sperator")
 type SendCsv interface {
 	Send(csv1 []string) error
 	NewSheet(name string) error
+	Close()
+	SetDoQuit(bool)
+	SetSaveAs(string)
 }
 
 func parseCsvReader(r io.Reader, f SendCsv) error {
@@ -53,7 +56,7 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		return parseCsvReader(mbcs.NewAutoDetectReader(os.Stdin,mbcs.ACP), f)
+		return parseCsvReader(mbcs.NewAutoDetectReader(os.Stdin, mbcs.ACP), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
 		return errors.Wrap(err, "parseCsvFile")
@@ -63,7 +66,7 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	reader := mbcs.NewAutoDetectReader(fd,mbcs.ACP)
+	reader := mbcs.NewAutoDetectReader(fd, mbcs.ACP)
 	return parseCsvReader(reader, f)
 }
 
@@ -88,11 +91,11 @@ func main1(args []string) error {
 		return err
 	}
 	if *quitOption {
-		send2excel.DoQuit = true
+		send2excel.SetDoQuit(true)
 	}
 	if *saveAsOption != "" {
 		if fullpath, err := filepath.Abs(*saveAsOption); err == nil {
-			send2excel.SaveAs = fullpath
+			send2excel.SetSaveAs(fullpath)
 		}
 	}
 	defer send2excel.Close()

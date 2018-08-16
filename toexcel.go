@@ -16,7 +16,15 @@ type SendCsvToExcel struct {
 	SaveAs string
 }
 
-func NewSendCsvToExcel(visible bool) (*SendCsvToExcel, error) {
+func (this *SendCsvToExcel) SetDoQuit(value bool) {
+	this.DoQuit = value
+}
+
+func (this *SendCsvToExcel) SetSaveAs(name string) {
+	this.SaveAs = name
+}
+
+func NewSendCsvToExcel(visible bool) (SendCsv, error) {
 	excel1, err := excel.New(visible)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewSendCsvToExcel")
