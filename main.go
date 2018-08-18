@@ -14,7 +14,7 @@ import (
 	"github.com/zetamatta/go-texts/mbcs"
 )
 
-const version = "0.4"
+const version = "0.5"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var saveAsOption = flag.String("o", "", "Save to file and quit immediately without EXCEL.EXE")
