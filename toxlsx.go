@@ -32,6 +32,10 @@ func (this *SendCsvToXlsx) Send(csv1 []string) error {
 	row := this.sheet.AddRow()
 	for _, val := range csv1 {
 		cell := row.AddCell()
+		style := cell.GetStyle()
+		style.Alignment.WrapText = true
+		style.Alignment.Vertical = "center"
+		cell.SetStyle(style)
 		if rxNumber.MatchString(val) {
 			if f, err := strconv.ParseFloat(val, 64); err == nil {
 				cell.SetFloat(f)
