@@ -33,7 +33,7 @@ Destinate Excel data (sample)
 history
 -------
 - (Not released yet)
-    - With `-o FILENAME`, use "tealeg/xlsx" instead of "go-ole/go-ole"
+    - When `-o FILENAME` is given, use "[tealeg/xlsx](https://github.com/tealeg/xlsx)" instead of "[go-ole/go-ole](https://github.com/go-ole/go-ole)"
     - Remove options -s and -q. Their features are enabled with -o.
 - 0.4 (Aug 05,2018)
     - Add -f option to set field seperator
