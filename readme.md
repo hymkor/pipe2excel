@@ -12,6 +12,8 @@ or files of arguments to Excel as CSV to Microsoft Excel.
 How to use
 ----------
 
+### OLE-MODE
+
 ```
 C:\> pipe2excel foo.csv bar.csv
 ```
@@ -19,6 +21,17 @@ C:\> pipe2excel foo.csv bar.csv
 ```
 C:\> type foo.csv | pipe2excel
 ```
+
+It starts Microsoft Excel.
+
+### Non-OLE
+
+```
+C:\> pipe2excel -o foo.xlsx foo.csv
+```
+
+It does not start Microsoft Excel. It creates foo.xlsx statically.
+
 
 Source CSV data (sample)
 ------------------------
