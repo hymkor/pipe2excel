@@ -18,7 +18,7 @@ const version = "0.5"
 
 var versionOption = flag.Bool("v", false, "Show version")
 var saveAsOption = flag.String("o", "", "Save to file and quit immediately without EXCEL.EXE")
-var fieldSeperator = flag.String("f", ",", "Field Sperator")
+var fieldSeparater = flag.String("f", ",", "Field Separater")
 
 // SendCsv is the interface to send csv somewhere
 type SendCsv interface {
@@ -32,10 +32,10 @@ type SendCsv interface {
 func parseCsvReader(r io.Reader, f SendCsv) error {
 	reader := csv.NewReader(r)
 	reader.FieldsPerRecord = -1 // do not error how many field exists per line
-	if len(*fieldSeperator) != 1 {
-		return fmt.Errorf("Invalid lendth of field seperator(%s)", *fieldSeperator)
+	if len(*fieldSeparater) != 1 {
+		return fmt.Errorf("Invalid lendth of field seperator(%s)", *fieldSeparater)
 	}
-	for _, v := range *fieldSeperator {
+	for _, v := range *fieldSeparater {
 		reader.Comma = v
 	}
 	for {
