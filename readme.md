@@ -32,6 +32,11 @@ C:\> pipe2excel -o foo.xlsx foo.csv
 
 It does not start Microsoft Excel. It creates foo.xlsx statically.
 
+### Options
+
+* `-f string` Field Sperator (default ",")
+* `-o string` Save to file and quit immediately without EXCEL.EXE
+* `-v` Show version
 
 Source CSV data (sample)
 ------------------------
