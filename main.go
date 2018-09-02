@@ -105,6 +105,11 @@ func main() {
 		fmt.Printf("%s-%s\n", version, runtime.GOARCH)
 		os.Exit(0)
 	}
+	if ! supportole && *saveAsOption == "" {
+		fmt.Fprintf(os.Stderr,"%s: -o option requires on not Windows platform.\n",os.Args[0])
+		os.Exit(1)
+	}
+
 	if err := main1(flag.Args()); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)
