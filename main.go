@@ -11,7 +11,6 @@ import (
 
 	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
-	"github.com/zetamatta/go-texts/mbcs"
 )
 
 const version = "0.5"
@@ -54,7 +53,7 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
-		return parseCsvReader(mbcs.NewAutoDetectReader(os.Stdin, mbcs.ACP), f)
+		return parseCsvReader(mbcsReader(os.Stdin), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
 		return errors.Wrap(err, "parseCsvFile")
@@ -64,7 +63,7 @@ func parseCsvFile(fname string, f SendCsv) error {
 		return err
 	}
 	defer fd.Close()
-	reader := mbcs.NewAutoDetectReader(fd, mbcs.ACP)
+	reader := mbcsReader(fd)
 	return parseCsvReader(reader, f)
 }
 
