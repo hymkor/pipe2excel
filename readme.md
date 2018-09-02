@@ -1,7 +1,7 @@
 Pipe To Excel
 =============
 
-`pipe2excel.exe` sends the contents of STDIN 
+`pipe2excel` sends the contents of STDIN 
 or files of arguments to Excel as CSV to Microsoft Excel.
 
 - The each value of the csv is inserted as a string.
@@ -12,7 +12,7 @@ or files of arguments to Excel as CSV to Microsoft Excel.
 How to use
 ----------
 
-### OLE-MODE
+### OLE-MODE (Supported only Windows)
 
 ```
 C:\> pipe2excel foo.csv bar.csv
@@ -24,7 +24,7 @@ C:\> type foo.csv | pipe2excel
 
 It starts Microsoft Excel.
 
-### Non-OLE
+### Non-OLE (Both Windows and Linux Ok)
 
 ```
 C:\> pipe2excel -o foo.xlsx foo.csv
