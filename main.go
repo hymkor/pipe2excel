@@ -53,6 +53,15 @@ func parseCsvReader(r io.Reader, f SendCsv) error {
 
 func parseCsvFile(fname string, f SendCsv) error {
 	if fname == "-" {
+		var xlsName string
+		if *saveAsOption != "" {
+			xlsName = *saveAsOption
+		} else {
+			xlsName = "default"
+		}
+		if err := f.NewSheet(xlsName); err != nil {
+			return err
+		}
 		return parseCsvReader(mbcsReader(os.Stdin), f)
 	}
 	if err := f.NewSheet(filepath.Base(fname)); err != nil {
