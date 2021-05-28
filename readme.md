@@ -50,8 +50,9 @@ Destinate Excel data (sample)
 
 history
 -------
-- (the version whose binary not released)
+- 0.5.1
     - Support Linux as platform (but required -o option always)
+    - (#1) Fix the panic on reading CSV from STDIN and using -o
 - 0.5 (Aug 08,2018)
     - When `-o FILENAME` is given, use "[tealeg/xlsx](https://github.com/tealeg/xlsx)" instead of "[go-ole/go-ole](https://github.com/go-ole/go-ole)"
     - Remove options -s and -q. Their features are enabled with -o.
