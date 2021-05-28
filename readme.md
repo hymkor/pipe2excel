@@ -41,32 +41,32 @@ It does not start Microsoft Excel. It creates foo.xlsx statically.
 Source CSV data (sample)
 ------------------------
 
-<img src="foo-csv.png" />
+![image](foo-csv.png)
 
 Destinate Excel data (sample)
 ----------------------------
 
-<img src="foo-xls.png" />
+![image](foo-xls.png)
 
 history
 -------
-- 0.5.1
+- v0.5.1 (May 28,2021)
     - Support Linux as platform (but required -o option always)
     - (#1) Fix the panic on reading CSV from STDIN and using -o
-- 0.5 (Aug 08,2018)
+- v0.5.0 (Aug 08,2018)
     - When `-o FILENAME` is given, use "[tealeg/xlsx](https://github.com/tealeg/xlsx)" instead of "[go-ole/go-ole](https://github.com/go-ole/go-ole)"
     - Remove options -s and -q. Their features are enabled with -o.
-- 0.4 (Aug 05,2018)
+- v0.4.0 (Aug 05,2018)
     - Add -f option to set field seperator
     - Do not treat as string when the value is a negative integer.
-- 0.3 (Jul 11,2018)
+- v0.3.0 (Jul 11,2018)
     - Fix leak release COM
     - Print help if no arguments and stdin is not redirected
-- 0.2 (Jul 1,2018)
+- v0.2.0 (Jul 1,2018)
     - Only matching `/^[1-9]\d*(\.\d*[1-9])?$/`, as a number
-- 0.1 (Jul 1,2018)
+- v0.1.0 (Jul 1,2018)
     - Set cell as a string
     - Detect encoding utf8 or codepage automatically and remove -u option
     - Add -v option to show version
-- 20180701
+- v0.0.1 (Jul 1,2018)
     - prototype
