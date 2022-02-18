@@ -1,4 +1,4 @@
-package main
+package filter
 
 import (
 	"bytes"
@@ -7,12 +7,19 @@ import (
 	"testing"
 )
 
-func TestMbcsReader(t *testing.T) {
+func TestFilter(t *testing.T) {
 	const testStr = `1234567890\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJLMNOPQRSTUVWXYZ`
-	r := mbcsReader(strings.NewReader(testStr))
-	var buffer [4]byte
+	source := strings.NewReader(testStr)
+	r := Filter{
+		In: func() ([]byte, error) {
+			var tmp [8]byte
+			n, err := source.Read(tmp[:])
+			return tmp[:n], err
+		},
+	}
 	var output []byte
 	for {
+		var buffer [7]byte
 		n, err := r.Read(buffer[:])
 		output = append(output, buffer[:n]...)
 		if err != nil {
@@ -22,4 +29,6 @@ func TestMbcsReader(t *testing.T) {
 	if !bytes.Equal(output, []byte(testStr)) {
 		t.Fail()
 	}
+	// println(string(output))
+	// println(testStr)
 }
