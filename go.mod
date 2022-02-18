@@ -1,4 +1,4 @@
-module github.com/zetamatta/pipe2excel
+module github.com/hymkor/pipe2excel
 
 go 1.16
 
