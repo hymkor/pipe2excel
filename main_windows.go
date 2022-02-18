@@ -14,7 +14,7 @@ const supportole = true
 
 func mbcsReader(fd io.Reader) io.Reader {
 	br := bufio.NewReader(fd)
-	return &filter.Filter{
+	return &filter.Reader{
 		In: func() ([]byte, error) {
 			bin, err := br.ReadBytes('\n')
 			if err != nil && err != io.EOF {

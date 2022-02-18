@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-func TestFilter(t *testing.T) {
-	const testStr = `1234567890\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJLMNOPQRSTUVWXYZ`
+func TestReader(t *testing.T) {
+	const testStr = "1234567890\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJLMNOPQRSTUVWXYZ"
 	source := strings.NewReader(testStr)
-	r := Filter{
+	r := Reader{
 		In: func() ([]byte, error) {
 			var tmp [8]byte
 			n, err := source.Read(tmp[:])

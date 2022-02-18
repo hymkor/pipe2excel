@@ -4,13 +4,13 @@ import (
 	"io"
 )
 
-type Filter struct {
+type Reader struct {
 	In   func() ([]byte, error)
 	rest []byte
 	eof  bool
 }
 
-func (this *Filter) Read(buffer []byte) (int, error) {
+func (this *Reader) Read(buffer []byte) (int, error) {
 	copiedBytes := 0
 	for len(buffer) > 0 {
 		if this.eof {
