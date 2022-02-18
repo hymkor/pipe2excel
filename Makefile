@@ -11,7 +11,7 @@ else
 endif
 
 all:
-	cd excel && go fmt
+	cd internal/excel && go fmt
 	cd internal/filter && go fmt
 	go fmt
 	$(SET) "CGO_ENABLED=0" && go build $(GOOPT)

@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/hymkor/pipe2excel/excel"
+	"github.com/hymkor/pipe2excel/internal/excel"
 )
 
 type SendCsvToExcel struct {
