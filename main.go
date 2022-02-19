@@ -13,7 +13,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const version = "0.5.1"
+var version string
 
 var versionOption = flag.Bool("v", false, "Show version")
 var saveAsOption = flag.String("o", "", "Save to file and quit immediately without EXCEL.EXE")
