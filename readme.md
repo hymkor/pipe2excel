@@ -50,6 +50,10 @@ Destinate Excel data (sample)
 
 history
 -------
+- v0.5.2 (Feb 19,2022)
+    - Fix package dependency problems
+    - Move or copy some packages into internal directory
+    - Change package owner to hymkor
 - v0.5.1 (May 28,2021)
     - Support Linux as platform (but required -o option always)
     - (#1) Fix the panic on reading CSV from STDIN and using -o
