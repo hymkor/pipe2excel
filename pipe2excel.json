@@ -1,7 +1,7 @@
 {
     "version": "0.5.2",
     "description": "Make Pipeline To Excel and send each CSV To Excel cell as a string",
-    "homepage": "https://github.com/zetamatta/pipe2excel",
+    "homepage": "https://github.com/hymkor/pipe2excel",
     "license": "MIT License",
     "architecture": {
         "32bit": {
@@ -16,10 +16,7 @@
     "bin": [
         "pipe2excel.exe"
     ],
-    "checkver": {
-        "github": "https://github.com/zetamatta/pipe2excel",
-        "regex": "tag/([\\d\\._]+)"
-    },
+    "checkver": "github",
     "autoupdate": {
         "architecture": {
             "32bit": {

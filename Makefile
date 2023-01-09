@@ -33,4 +33,4 @@ clean:
 	$(DEL) *.zip *.tar.gz $(NAME) $(NAME).exe
 
 manifest:
-	go run ./mkmanifest.go *-windows-*.zip > $(NAME).json
+	make-scoop-manifest *-windows-*.zip > $(NAME).json
