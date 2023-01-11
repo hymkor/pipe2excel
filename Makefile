@@ -11,8 +11,7 @@ else
 endif
 
 all:
-	cd internal/excel && go fmt
-	cd internal/filter && go fmt
+	$(foreach X,$(wildcard internal/*),cd $(X) && go fmt && cd ../.. && ) :
 	go fmt
 	$(SET) "CGO_ENABLED=0" && go build $(GOOPT)
 
