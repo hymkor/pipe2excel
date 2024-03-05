@@ -1,5 +1,6 @@
 Pipe To Excel
 =============
+[![GoDev](https://pkg.go.dev/badge/github.com/hymkor/pipe2excel)](https://pkg.go.dev/github.com/hymkor/pipe2excel)
 
 `pipe2excel` sends the contents of STDIN 
 or files of arguments to Excel as CSV to Microsoft Excel.
@@ -8,6 +9,23 @@ or files of arguments to Excel as CSV to Microsoft Excel.
     - Only matching `/^\-?[1-9]\d*(\.\d*[1-9])?$/`, as a number
 - The encoding of the CSV is detected automatically whether it is written in UTF8 or the encoding of the current codepage.
 
+Install
+-------
+
+Download the binary package from [Releases](https://github.com/hymkor/pipe2excel/releases) and extract the executable.
+
+### for scoop-installer
+
+```
+scoop install https://raw.githubusercontent.com/hymkor/pipe2excel/master/pipe2excel.json
+```
+
+or
+
+```
+scoop bucket add hymkor https://github.com/hymkor/scoop-bucket
+scoop install pipe2excel
+```
 
 How to use
 ----------
