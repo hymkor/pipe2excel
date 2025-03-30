@@ -2,19 +2,30 @@ Pipe To Excel
 =============
 [![GoDev](https://pkg.go.dev/badge/github.com/hymkor/pipe2excel)](https://pkg.go.dev/github.com/hymkor/pipe2excel)
 
-`pipe2excel` sends the contents of STDIN 
-or files of arguments to Excel as CSV to Microsoft Excel.
+`pipe2excel` sends the contents of STDIN or specified files to Microsoft Excel as CSV data.
 
-- The each value of the csv is inserted as a string.
-    - Only matching `/^\-?[1-9]\d*(\.\d*[1-9])?$/`, as a number
-- The encoding of the CSV is detected automatically whether it is written in UTF8 or the encoding of the current codepage.
+- Each CSV value is inserted as a string.
+    - However, values matching `/^\-?[1-9]\d*(\.\d*[1-9])?$/` are treated as numbers.
+- The CSV encoding is automatically detected, supporting both UTF-8 and the system's current code page.
 
 Install
 -------
 
-Download the binary package from [Releases](https://github.com/hymkor/pipe2excel/releases) and extract the executable.
+You can install pipe2excel in the following ways:
 
-### for scoop-installer
+### Downloading the Binary
+
+Download the binary package from the [Releases] page and extract the executable.
+
+[Releases]: https://github.com/hymkor/pipe2excel/releases
+
+### Using `go install`
+
+```
+go install github.com/hymkor/pipe2excel@latest
+```
+
+### Using Scoop (Windows)
 
 ```
 scoop install https://raw.githubusercontent.com/hymkor/pipe2excel/master/pipe2excel.json
@@ -24,13 +35,13 @@ or
 
 ```
 scoop bucket add hymkor https://github.com/hymkor/scoop-bucket
-scoop install pipe2excel
+scoop install hymkor/pipe2excel
 ```
 
-How to use
+How to Use
 ----------
 
-### OLE-MODE (Supported only Windows)
+### OLE Mode (Windows Only)
 
 ```
 C:\> pipe2excel foo.csv bar.csv
@@ -40,21 +51,21 @@ C:\> pipe2excel foo.csv bar.csv
 C:\> type foo.csv | pipe2excel
 ```
 
-It starts Microsoft Excel.
+This launches Microsoft Excel and opens the CSV files.
 
-### Non-OLE (Both Windows and Linux Ok)
+### Non-OLE Mode (Windows &amp; Linux)
 
 ```
 C:\> pipe2excel -o foo.xlsx foo.csv
 ```
 
-It does not start Microsoft Excel. It creates foo.xlsx statically.
+It does not start Microsoft Excel. Instead, it creates `foo.xlsx` directly.
 
 ### Options
 
-* `-f string` Field Sperator (default ",")
-* `-o string` Save to file and quit immediately without EXCEL.EXE
-* `-v` Show version
+* `-f string` → Field Sperator (default `,`)
+* `-o string` → Save to a file and exit immediately without starting Excel
+* `-v` → Show version information
 
 Source CSV data (sample)
 ------------------------
