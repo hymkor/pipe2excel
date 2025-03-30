@@ -1,6 +1,7 @@
 Pipe To Excel
 =============
 [![GoDev](https://pkg.go.dev/badge/github.com/hymkor/pipe2excel)](https://pkg.go.dev/github.com/hymkor/pipe2excel)
+[![Github latest Releases](https://img.shields.io/github/downloads/hymkor/pipe2excel/latest/total.svg)](https://github.com/hymkor/pipe2excel/releases/latest)
 
 `pipe2excel` sends the contents of STDIN or specified files to Microsoft Excel as CSV data.
 
